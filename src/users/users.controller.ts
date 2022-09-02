@@ -1,4 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, UseInterceptors, ClassSerializerInterceptor, NotFoundException } from '@nestjs/common';
+import {
+  Controller, Get, Post, Body, Patch,
+  Param, Delete, UsePipes, ValidationPipe,
+  UseInterceptors, ClassSerializerInterceptor,
+  NotFoundException, HttpException, Inject
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -6,24 +11,38 @@ import { UserEntity } from './entities/user.entity';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+
+  constructor(
+    @Inject('USERS_SERVICE') private readonly usersService: UsersService
+  ) { }
 
   @Post()
+  @UseInterceptors(ClassSerializerInterceptor)
   @UsePipes(ValidationPipe)
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    let user = await this.usersService.create(createUserDto);
+    if (user) {
+      return new UserEntity(user);
+    }
+
+    throw new HttpException('Something went wrong!', 400);
   }
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
-  findAll() {
-    return this.usersService.findAll().map(user => new UserEntity(user));
+  async findAll() {
+    let users = await this.usersService.findAll()
+    if (users) {
+      return users.map(user => new UserEntity(user));
+    }
+
+    throw new HttpException('Something went wrong!', 400);
   }
 
   @Get(':id')
   @UseInterceptors(ClassSerializerInterceptor)
-  findOne(@Param('id') id: string): UserEntity {
-    let user = this.usersService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<UserEntity> {
+    let user = await this.usersService.findOne(+id);
 
     if (user) {
       return new UserEntity(user);
