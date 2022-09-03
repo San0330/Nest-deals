@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { User } from '../typeorm';
+import { encodePassword } from '../utils/bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -12,8 +13,10 @@ export class UsersService {
     @InjectRepository(User) private readonly usersRepository: Repository<User>
   ) { }
 
-  create(createUserDto: CreateUserDto): Promise<User> {
-    const newUser = this.usersRepository.create(createUserDto);
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const password = await encodePassword(createUserDto.password);
+    const newUser = this.usersRepository.create({ ...createUserDto, password });
+
     return this.usersRepository.save(newUser);
   }
 
@@ -22,11 +25,17 @@ export class UsersService {
   }
 
   findOne(id: number): Promise<User> {
-    return this.usersRepository.findOneBy({ id });
+    return this.usersRepository.findOneBy({ id: id });
+  }
+
+  findByEmail(email: string): Promise<User> {
+    // make sure email is not undefined, if undefined return first item in table
+    return this.usersRepository.findOneBy({ email: email });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    updateUserDto.password = null;
+    return this.usersRepository.update(id, updateUserDto);
   }
 
   async remove(id: number): Promise<void> {
