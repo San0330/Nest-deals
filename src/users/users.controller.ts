@@ -20,12 +20,20 @@ export class UsersController {
   @UseInterceptors(ClassSerializerInterceptor)
   @UsePipes(ValidationPipe)
   async create(@Body() createUserDto: CreateUserDto) {
-    let user = await this.usersService.create(createUserDto);
-    if (user) {
-      return new UserEntity(user);
+
+    let prevUser = await this.usersService.findByEmail(createUserDto.email);
+
+    if (prevUser) {
+      throw new HttpException(`User with email ${createUserDto.email} already exists!`, 400);
     }
 
-    throw new HttpException('Something went wrong!', 400);
+    let createdUser = await this.usersService.create(createUserDto);
+
+    if (!createdUser) {
+      throw new HttpException('Something went wrong!', 400);
+    }
+    
+    return new UserEntity(createdUser);
   }
 
   @Get()
