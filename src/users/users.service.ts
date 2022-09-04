@@ -33,8 +33,7 @@ export class UsersService {
     return this.usersRepository.findOneBy({ email: email });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    updateUserDto.password = null;
+  update(id: number, updateUserDto: UpdateUserDto) {    
     return this.usersRepository.update(id, updateUserDto);
   }
 
