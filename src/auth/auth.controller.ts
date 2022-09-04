@@ -1,7 +1,8 @@
 import {
     Body, Controller, Inject, HttpException, Post,
-    ClassSerializerInterceptor, UseInterceptors, UsePipes, ValidationPipe
+    ClassSerializerInterceptor, UseInterceptors, UseGuards
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { UserEntity } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -12,16 +13,21 @@ export class AuthController {
 
     constructor(@Inject('AUTH_SERVICE') private readonly authService: AuthService) { }
 
-    @Post('login')
-    @UseInterceptors(ClassSerializerInterceptor)
-    // @UsePipes(ValidationPipe)
-    async login(@Body() LoginUserDto: LoginUserDto) {
-        let user = await this.authService.validateUser(LoginUserDto.email, LoginUserDto.password);
-        if (user) {
-            return new UserEntity(user);
-        }
+    // @Post('login')
+    // @UseInterceptors(ClassSerializerInterceptor)
+    // @UseGuards(AuthGuard('local'))
+    // async login(@Body() LoginUserDto: LoginUserDto) {
+    //     let user = await this.authService.validateUser(LoginUserDto.email, LoginUserDto.password);
+    //     if (user) {
+    //         return new UserEntity(user);
+    //     }
 
-        throw new HttpException('username/password is invalid!', 400);
+    //     throw new HttpException('username/password is invalid!', 400);
+    // }
+
+    @Post('login')
+    @UseGuards(AuthGuard('local'))
+    async login() {
     }
 
     @Post('register')
