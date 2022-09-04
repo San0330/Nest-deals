@@ -14,7 +14,7 @@ export class AuthController {
 
     @Post('login')
     @UseInterceptors(ClassSerializerInterceptor)
-    @UsePipes(ValidationPipe)
+    // @UsePipes(ValidationPipe)
     async login(@Body() LoginUserDto: LoginUserDto) {
         let user = await this.authService.validateUser(LoginUserDto.email, LoginUserDto.password);
         if (user) {
@@ -26,7 +26,7 @@ export class AuthController {
 
     @Post('register')
     @UseInterceptors(ClassSerializerInterceptor)
-    @UsePipes(ValidationPipe)
+    // @UsePipes(ValidationPipe)
     async register(@Body() registerUserDto: RegisterUserDto) {
         let prevUser = await this.authService.findUserByEmail(registerUserDto.email);
 

@@ -18,7 +18,7 @@ export class UsersController {
 
   @Post()
   @UseInterceptors(ClassSerializerInterceptor)
-  @UsePipes(ValidationPipe)
+  // @UsePipes(ValidationPipe)
   async create(@Body() createUserDto: CreateUserDto) {
 
     let prevUser = await this.usersService.findByEmail(createUserDto.email);
