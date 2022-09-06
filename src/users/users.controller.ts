@@ -1,7 +1,6 @@
 import {
   Controller, Get, Post, Body, Patch,
-  Param, Delete, UsePipes, ValidationPipe,
-  UseInterceptors, ClassSerializerInterceptor,
+  Param, Delete, UseInterceptors, ClassSerializerInterceptor,
   NotFoundException, HttpException, Inject
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -32,7 +31,7 @@ export class UsersController {
     if (!createdUser) {
       throw new HttpException('Something went wrong!', 400);
     }
-    
+
     return new UserEntity(createdUser);
   }
 
@@ -50,7 +49,7 @@ export class UsersController {
   @Get(':id')
   @UseInterceptors(ClassSerializerInterceptor)
   async findOne(@Param('id') id: string): Promise<UserEntity> {
-    let user = await this.usersService.findOne(+id);
+    let user = await this.usersService.findUserById(+id);
 
     if (user) {
       return new UserEntity(user);
