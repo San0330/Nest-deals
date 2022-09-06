@@ -9,7 +9,6 @@ export class AuthService {
     constructor(@Inject("USER_SERVICE") private readonly userService: UsersService) { }
 
     async validateUser(email: string, password: string) {
-
         const user = await this.findUserByEmail(email);
 
         if (user) {

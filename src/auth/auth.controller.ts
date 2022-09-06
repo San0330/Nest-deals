@@ -6,6 +6,7 @@ import { UserEntity } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LocalAuthGuard } from './local-auth.guard';
+import { AuthenticatedGuard } from './authenticate.guard';
 import { Request } from 'express';
 
 @Controller('auth')
@@ -16,6 +17,12 @@ export class AuthController {
     @Post('login')
     @UseGuards(LocalAuthGuard)
     async login(@Req() request: Request) {
+        return request.user;
+    }
+
+    @Get('')
+    @UseGuards(AuthenticatedGuard)
+    home(@Req() request: Request) {
         return request.user;
     }
 
