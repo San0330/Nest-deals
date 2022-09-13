@@ -4,6 +4,7 @@ import entities from './typeorm';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [UsersModule,
@@ -26,4 +27,10 @@ import { PassportModule } from '@nestjs/passport';
   providers: [],
 })
 
-export class AppModule { }
+export class AppModule {
+  constructor(private dataSource: DataSource) { }
+
+  getDataSource() {
+    return this.dataSource;
+  }
+}

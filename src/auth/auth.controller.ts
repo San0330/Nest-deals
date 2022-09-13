@@ -1,6 +1,6 @@
 import {
     Body, Controller, Inject, HttpException, Post, Get,
-    ClassSerializerInterceptor, UseInterceptors, UseGuards, Session, Req
+    ClassSerializerInterceptor, UseInterceptors, UseGuards, Req
 } from '@nestjs/common';
 import { UserEntity } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
