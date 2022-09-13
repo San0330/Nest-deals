@@ -1,8 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
-
     @PrimaryGeneratedColumn({
         type: 'bigint',
     })
@@ -14,7 +13,7 @@ export class User {
     first_name: string;
 
     @Column({
-        nullable: false
+        nullable: false,
     })
     last_name: string;
 
@@ -33,6 +32,5 @@ export class User {
     @Column({
         nullable: false,
     })
-    date_of_birth: Date
-
+    date_of_birth: Date;
 }

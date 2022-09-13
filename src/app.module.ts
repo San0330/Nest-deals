@@ -7,30 +7,30 @@ import { PassportModule } from '@nestjs/passport';
 import { DataSource } from 'typeorm';
 
 @Module({
-  imports: [UsersModule,
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'san',
-      password: 'password',
-      database: 'nest_deals',
-      entities,
-      synchronize: true,
-    }),
-    PassportModule.register({
-      session: true,
-    }),
-    AuthModule
-  ],
-  controllers: [],
-  providers: [],
+    imports: [
+        UsersModule,
+        TypeOrmModule.forRoot({
+            type: 'mysql',
+            host: 'localhost',
+            port: 3306,
+            username: 'san',
+            password: 'password',
+            database: 'nest_deals',
+            entities,
+            synchronize: true,
+        }),
+        PassportModule.register({
+            session: true,
+        }),
+        AuthModule,
+    ],
+    controllers: [],
+    providers: [],
 })
-
 export class AppModule {
-  constructor(private dataSource: DataSource) { }
+    constructor(private dataSource: DataSource) {}
 
-  getDataSource() {
-    return this.dataSource;
-  }
+    getDataSource() {
+        return this.dataSource;
+    }
 }

@@ -1,18 +1,23 @@
-import { ISession } from "connect-typeorm"
-import { Column, Index, PrimaryColumn, Entity, DeleteDateColumn } from 'typeorm'
+import { ISession } from 'connect-typeorm';
+import {
+    Column,
+    Index,
+    PrimaryColumn,
+    Entity,
+    DeleteDateColumn,
+} from 'typeorm';
 
 @Entity({ name: 'sessions' })
 export class SessionEntity implements ISession {
-
     @Index()
-    @Column("bigint")
-    public expiredAt = Date.now()
+    @Column('bigint')
+    public expiredAt = Date.now();
 
     @PrimaryColumn('varchar', { length: 255 })
-    public id = ''
+    public id = '';
 
     @Column('text')
-    public json = ''
+    public json = '';
 
     @DeleteDateColumn()
     public destroyedAt?: Date;

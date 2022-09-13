@@ -1,6 +1,14 @@
 import {
-    Body, Controller, Inject, HttpException, Post, Get,
-    ClassSerializerInterceptor, UseInterceptors, UseGuards, Req
+    Body,
+    Controller,
+    Inject,
+    HttpException,
+    Post,
+    Get,
+    ClassSerializerInterceptor,
+    UseInterceptors,
+    UseGuards,
+    Req,
 } from '@nestjs/common';
 import { UserEntity } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
@@ -11,8 +19,9 @@ import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
-
-    constructor(@Inject('AUTH_SERVICE') private readonly authService: AuthService) { }
+    constructor(
+        @Inject('AUTH_SERVICE') private readonly authService: AuthService,
+    ) {}
 
     @Post('login')
     @UseGuards(LocalAuthGuard)
@@ -29,13 +38,20 @@ export class AuthController {
     @Post('register')
     @UseInterceptors(ClassSerializerInterceptor)
     async register(@Body() registerUserDto: RegisterUserDto) {
-        let prevUser = await this.authService.findUserByEmail(registerUserDto.email);
+        let prevUser = await this.authService.findUserByEmail(
+            registerUserDto.email,
+        );
 
         if (prevUser) {
-            throw new HttpException(`User with email ${registerUserDto.email} already exists!`, 400);
+            throw new HttpException(
+                `User with email ${registerUserDto.email} already exists!`,
+                400,
+            );
         }
 
-        let registeredUser = await this.authService.registerUser(registerUserDto);
+        let registeredUser = await this.authService.registerUser(
+            registerUserDto,
+        );
 
         if (registeredUser) {
             return new UserEntity(registeredUser);
@@ -47,5 +63,4 @@ export class AuthController {
 
         return new UserEntity(registeredUser);
     }
-
 }

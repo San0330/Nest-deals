@@ -5,14 +5,18 @@ import { RegisterUserDto } from './dto/register-user.dto';
 
 @Injectable()
 export class AuthService {
-
-    constructor(@Inject("USER_SERVICE") private readonly userService: UsersService) { }
+    constructor(
+        @Inject('USER_SERVICE') private readonly userService: UsersService,
+    ) {}
 
     async validateUser(email: string, password: string) {
         const user = await this.findUserByEmail(email);
 
         if (user) {
-            let matchedPassword = await comparePassword(password, user.password);
+            let matchedPassword = await comparePassword(
+                password,
+                user.password,
+            );
             if (matchedPassword) {
                 return user;
             }
@@ -28,5 +32,4 @@ export class AuthService {
     async registerUser(registerUserDto: RegisterUserDto) {
         return this.userService.create(registerUserDto);
     }
-
 }

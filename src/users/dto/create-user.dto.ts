@@ -1,10 +1,9 @@
-import { IsEmail, IsNotEmpty, IsDateString, MinLength } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsDateString, MinLength } from 'class-validator';
 
 export class CreateUserDto {
-
     @IsNotEmpty()
     @MinLength(3, {
-        message: 'First name too short'
+        message: 'First name too short',
     })
     first_name: string;
 

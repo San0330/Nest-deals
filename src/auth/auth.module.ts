@@ -8,20 +8,19 @@ import { LocalStrategy } from './local.startegy';
 import { SessionSerializer } from './session.serializer';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([User]),
-  ],
-  controllers: [AuthController],
-  providers: [{
-    provide: 'AUTH_SERVICE',
-    useClass: AuthService
-  },
-  {
-    provide: 'USER_SERVICE',
-    useClass: UsersService
-  },
-    LocalStrategy,
-    SessionSerializer,
-  ]
+    imports: [TypeOrmModule.forFeature([User])],
+    controllers: [AuthController],
+    providers: [
+        {
+            provide: 'AUTH_SERVICE',
+            useClass: AuthService,
+        },
+        {
+            provide: 'USER_SERVICE',
+            useClass: UsersService,
+        },
+        LocalStrategy,
+        SessionSerializer,
+    ],
 })
-export class AuthModule { }
+export class AuthModule {}
