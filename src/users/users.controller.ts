@@ -31,7 +31,6 @@ export class UsersController {
     if (!createdUser) {
       throw new HttpException('Something went wrong!', 400);
     }
-
     return new UserEntity(createdUser);
   }
 
