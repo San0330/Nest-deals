@@ -14,24 +14,18 @@ import { UserEntity } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LocalAuthGuard } from './local-auth.guard';
-import { AuthenticatedGuard } from './authenticate.guard';
 import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
     constructor(
         @Inject('AUTH_SERVICE') private readonly authService: AuthService,
-    ) {}
+    ) { }
 
     @Post('login')
     @UseGuards(LocalAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     async login(@Req() request: Request) {
-        return request.user;
-    }
-
-    @Get('')
-    @UseGuards(AuthenticatedGuard)
-    home(@Req() request: Request) {
         return request.user;
     }
 
@@ -52,10 +46,6 @@ export class AuthController {
         let registeredUser = await this.authService.registerUser(
             registerUserDto,
         );
-
-        if (registeredUser) {
-            return new UserEntity(registeredUser);
-        }
 
         if (!registeredUser) {
             throw new HttpException('Something went wrong!', 400);

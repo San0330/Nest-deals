@@ -7,7 +7,9 @@ import * as passport from 'passport';
 import { SessionEntity } from './typeorm';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, {
+        logger: ['error', 'warn'],
+    });
 
     const sessionRepository = app
         .get(AppModule)
@@ -20,6 +22,8 @@ async function bootstrap() {
         }),
     );
 
+    app.enableCors();
+
     app.use(
         session({
             name: 'NEST-DEALS-SESSID',
@@ -27,7 +31,7 @@ async function bootstrap() {
             resave: false,
             saveUninitialized: false,
             cookie: {
-                maxAge: 60000,
+                maxAge: 60 * 60 * 1000,
             },
             store: new TypeormStore({
                 cleanupLimit: 2,
@@ -40,6 +44,8 @@ async function bootstrap() {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    await app.listen(3000);
+    app.setGlobalPrefix('api')
+
+    await app.listen(3001);
 }
 bootstrap();

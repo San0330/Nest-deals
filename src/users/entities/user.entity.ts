@@ -1,4 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
+import { UserRole } from '../../typeorm/User';
 
 export class UserEntity {
     id: number;
@@ -10,6 +11,18 @@ export class UserEntity {
     password: string;
 
     date_of_birth: Date;
+
+    @Exclude()
+    role: UserRole;
+
+    @Exclude()
+    created_date: Date;
+
+    @Exclude()
+    updated_date: Date;
+
+    @Exclude()
+    deleted_date: Date;
 
     @Expose()
     get full_name(): string {
