@@ -5,6 +5,7 @@ import { TypeormStore } from 'connect-typeorm';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { SessionEntity } from './typeorm';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
@@ -22,7 +23,16 @@ async function bootstrap() {
         }),
     );
 
-    app.enableCors();
+    app.enableCors({
+        "origin": "http://localhost:3000",
+        "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "preflightContinue": false,
+        "optionsSuccessStatus": 204,
+        "allowedHeaders": ['Content-Type', 'Authorization'],
+        "credentials": true,
+    });
+
+    app.use(cookieParser())
 
     app.use(
         session({

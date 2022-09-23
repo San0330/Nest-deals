@@ -2,7 +2,9 @@ import { Exclude, Expose } from 'class-transformer';
 import { UserRole } from '../../typeorm/User';
 
 export class UserEntity {
+    @Exclude()
     id: number;
+
     first_name: string;
     last_name: string;
     email: string;

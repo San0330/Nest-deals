@@ -1,4 +1,5 @@
-import {Entity, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
+import { User } from "./User";
 
 @Entity()
 export class Product {
@@ -6,7 +7,6 @@ export class Product {
         type: 'bigint'
     })
     id: number;
-
 
     @Column()
     name: string;
@@ -20,12 +20,26 @@ export class Product {
     @Column()
     price: number;
 
-    @CreateDateColumn()
+    @ManyToOne(() => User, {
+        nullable: false
+    })
+    @JoinColumn({
+        name: 'created_by_id'
+    })
+    created_by: User;
+
+    @CreateDateColumn({
+        default: () => 'CURRENT_TIMESTAMP'
+    })
     created_date: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({
+        nullable: true
+    })
     updated_date: Date;
 
-    @DeleteDateColumn()
+    @DeleteDateColumn({
+        nullable: true
+    })
     deleted_date: Date;
 }

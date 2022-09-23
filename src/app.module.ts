@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { DataSource } from 'typeorm';
+import { ProductModule } from './product/product.module';
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { DataSource } from 'typeorm';
             session: true,
         }),
         AuthModule,
+        ProductModule,
     ],
     controllers: [],
     providers: [],

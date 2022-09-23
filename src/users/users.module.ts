@@ -14,4 +14,4 @@ import { User } from '../typeorm';
         },
     ],
 })
-export class UsersModule {}
+export class UsersModule { }

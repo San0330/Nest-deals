@@ -4,7 +4,6 @@ import {
     Inject,
     HttpException,
     Post,
-    Get,
     ClassSerializerInterceptor,
     UseInterceptors,
     UseGuards,
@@ -26,7 +25,7 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async login(@Req() request: Request) {
-        return request.user;
+        return new UserEntity(request.user);
     }
 
     @Post('register')
