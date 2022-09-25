@@ -3,20 +3,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from '../typeorm'
 import { ProductController } from './product.controller';
 import { ProductService } from './product.service';
-import { UsersService } from '../users/users.service'
 import { User } from '../typeorm'
+import { AuthenticatedGuard } from '../auth/authenticate.guard';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Product, User])],
     controllers: [ProductController],
     providers: [
         {
-            provide: 'PRODUCT_SERVICE',
-            useClass: ProductService
+            provide: 'APP_GUARD',
+            useClass: AuthenticatedGuard,
         },
         {
-            provide: 'USER_SERVICE',
-            useClass: UsersService,
+            provide: 'PRODUCT_SERVICE',
+            useClass: ProductService
         },
     ],
 })
