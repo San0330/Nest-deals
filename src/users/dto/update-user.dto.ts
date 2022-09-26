@@ -1,6 +1,6 @@
 import { OmitType } from '@nestjs/mapped-types';
 import { IsNotEmpty } from 'class-validator';
-import { Gender } from '../../typeorm/User';
+import { Gender } from '../entities/user.entity';
 import { CreateUserDto } from './create-user.dto';
 
 export class UpdateUserDto extends OmitType(CreateUserDto, [

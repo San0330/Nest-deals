@@ -1,9 +1,9 @@
-import { Product } from './Product';
-import { SessionEntity } from './Session';
-import { User } from './User';
+import { UserEntity } from '../users/entities/user.entity';
+import { ProductEntity } from '../product/entities/product.entity';
+import { SessionEntity } from '../auth/entities/session.entity';
 
-const entities = [User, SessionEntity, Product];
+const entities = [UserEntity, SessionEntity, ProductEntity];
 
-export { User, SessionEntity, Product };
+export { UserEntity, SessionEntity, ProductEntity };
 
 export default entities;

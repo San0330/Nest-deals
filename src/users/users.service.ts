@@ -3,17 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
-import { User } from '../typeorm';
+import { UserEntity } from '../typeorm';
 import { encodePassword } from '../utils/bcrypt';
 
 @Injectable()
 export class UsersService {
     constructor(
-        @InjectRepository(User)
-        private readonly usersRepository: Repository<User>,
-    ) {}
+        @InjectRepository(UserEntity)
+        private readonly usersRepository: Repository<UserEntity>,
+    ) { }
 
-    async create(createUserDto: CreateUserDto): Promise<User> {
+    async create(createUserDto: CreateUserDto): Promise<UserEntity> {
         const password = await encodePassword(createUserDto.password);
         const newUser = this.usersRepository.create({
             ...createUserDto,
@@ -23,17 +23,20 @@ export class UsersService {
         return this.usersRepository.save(newUser);
     }
 
-    findAll(): Promise<User[]> {
+    findAll(): Promise<UserEntity[]> {
         return this.usersRepository.find();
     }
 
-    findUserById(id: number): Promise<User> {
+    findUserById(id: number): Promise<UserEntity> {
         return this.usersRepository.findOneBy({ id: id });
     }
 
-    findByEmail(email: string): Promise<User> {
-        // make sure email is not undefined, if undefined return first item in table
-        return this.usersRepository.findOneBy({ email: email });
+    findByEmail(email: string): Promise<UserEntity> {
+        return this.usersRepository
+            .createQueryBuilder('user')
+            .where("user.email = :email", { email })
+            .addSelect('user.password')
+            .getOne();
     }
 
     update(id: number, updateUserDto: UpdateUserDto) {

@@ -9,12 +9,12 @@ import {
     UseGuards,
     Req,
 } from '@nestjs/common';
-import { UserEntity } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LocalAuthGuard } from './local-auth.guard';
 import { Request } from 'express';
 import { Public } from './public.decorator';
+import { UserEntity } from '../typeorm';
 
 @Public()
 @Controller('auth')
@@ -31,7 +31,6 @@ export class AuthController {
     }
 
     @Post('register')
-    @Public()
     @UseInterceptors(ClassSerializerInterceptor)
     async register(@Body() registerUserDto: RegisterUserDto) {
         let prevUser = await this.authService.findUserByEmail(

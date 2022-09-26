@@ -1,4 +1,4 @@
-import { MinLength, IsNumber, IsEmpty } from 'class-validator';
+import { MinLength, IsNumber  } from 'class-validator';
 import { Type } from 'class-transformer'
 
 export class CreateProductDto {

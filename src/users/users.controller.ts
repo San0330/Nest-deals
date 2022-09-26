@@ -15,13 +15,13 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserEntity } from './entities/user.entity';
+import { UserEntity } from '../typeorm';
 
 @Controller('users')
 export class UsersController {
     constructor(
         @Inject('USERS_SERVICE') private readonly usersService: UsersService,
-    ) {}
+    ) { }
 
     @Post()
     @UseInterceptors(ClassSerializerInterceptor)

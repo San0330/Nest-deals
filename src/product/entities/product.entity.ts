@@ -1,8 +1,9 @@
+import { UserEntity } from "../../users/entities/user.entity";
 import { Entity, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
-import { User } from "./User";
+import { Exclude } from "class-transformer";
 
-@Entity()
-export class Product {
+@Entity({ name: 'products' })
+export class ProductEntity {
     @PrimaryGeneratedColumn({
         type: 'bigint'
     })
@@ -20,13 +21,13 @@ export class Product {
     @Column()
     price: number;
 
-    @ManyToOne(() => User, {
+    @ManyToOne(() => UserEntity, {
         nullable: false
     })
     @JoinColumn({
         name: 'created_by_id'
-    })
-    created_by: User;
+    })    
+    created_by: UserEntity;
 
     @CreateDateColumn({
         default: () => 'CURRENT_TIMESTAMP'
@@ -42,4 +43,9 @@ export class Product {
         nullable: true
     })
     deleted_date: Date;
+
+    constructor(partial: Partial<ProductEntity>) {
+        Object.assign(this, partial);
+    }
 }
+
