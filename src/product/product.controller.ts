@@ -3,8 +3,6 @@ import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Request } from 'express'
 import { UserEntity } from '../typeorm';
-import { ProductEntity } from './entities/product.entity';
-import { Public } from '../auth/public.decorator';
 
 @Controller('product')
 export class ProductController {
@@ -13,7 +11,16 @@ export class ProductController {
         @Inject('PRODUCT_SERVICE') private readonly productService: ProductService
     ) { }
 
-    @Public()
+    @Get()
+    @UseInterceptors(ClassSerializerInterceptor)
+    async gets() {
+        const products = await this.productService.findall()
+
+        if (!products) throw new NotFoundException();
+
+        return products
+    }
+
     @Get(':id')
     @UseInterceptors(ClassSerializerInterceptor)
     async get(@Param('id', ParseIntPipe) id: number) {
@@ -21,7 +28,7 @@ export class ProductController {
 
         if (!product) throw new NotFoundException();
 
-        return new ProductEntity(product);
+        return product;
     }
 
     @Post('create')

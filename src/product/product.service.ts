@@ -11,6 +11,11 @@ export class ProductService {
         private readonly productRepository: Repository<ProductEntity>,
     ) { }
 
+    async findall() {
+        const products = await this.productRepository.find()
+        return products;
+    }
+
     async findById(id: number) {
 
         const product = await this.productRepository.findOne({

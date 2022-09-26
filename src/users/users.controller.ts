@@ -15,7 +15,6 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserEntity } from '../typeorm';
 
 @Controller('users')
 export class UsersController {
@@ -41,7 +40,8 @@ export class UsersController {
         if (!createdUser) {
             throw new HttpException('Something went wrong!', 400);
         }
-        return new UserEntity(createdUser);
+
+        return createdUser;
     }
 
     @Get()
@@ -49,7 +49,7 @@ export class UsersController {
     async findAll() {
         let users = await this.usersService.findAll();
         if (users) {
-            return users.map((user) => new UserEntity(user));
+            return users;
         }
 
         throw new HttpException('Something went wrong!', 400);
@@ -57,11 +57,11 @@ export class UsersController {
 
     @Get(':id')
     @UseInterceptors(ClassSerializerInterceptor)
-    async findOne(@Param('id') id: string): Promise<UserEntity> {
+    async findOne(@Param('id') id: string) {
         let user = await this.usersService.findUserById(+id);
 
         if (user) {
-            return new UserEntity(user);
+            return user;
         }
 
         throw new NotFoundException();

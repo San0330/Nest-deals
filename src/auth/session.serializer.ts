@@ -10,7 +10,6 @@ export class SessionSerializer extends PassportSerializer {
     }
 
     serializeUser(user: any, done: Function) {
-        delete user.password;
         done(null, user);
     }
 

@@ -42,6 +42,7 @@ export class ProductEntity {
     @DeleteDateColumn({
         nullable: true
     })
+    @Exclude()
     deleted_date: Date;
 
     constructor(partial: Partial<ProductEntity>) {

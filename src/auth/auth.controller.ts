@@ -52,6 +52,6 @@ export class AuthController {
             throw new HttpException('Something went wrong!', 400);
         }
 
-        return new UserEntity(registeredUser);
+        return registeredUser;
     }
 }
