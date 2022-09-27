@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UserService } from './users.service';
 import { UsersController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../typeorm';
@@ -11,13 +11,13 @@ import { Services } from '../utils/constants';
     providers: [
         {
             provide: Services.USER,
-            useClass: UsersService,
+            useClass: UserService,
         },
     ],
     exports: [
         {
             provide: Services.USER,
-            useClass: UsersService,
+            useClass: UserService,
         },
     ]
 })

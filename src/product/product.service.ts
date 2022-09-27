@@ -4,8 +4,14 @@ import { Repository } from 'typeorm';
 import { ProductEntity, UserEntity } from '../typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 
+export interface IProductService {
+    findall(): Promise<ProductEntity[]>;
+    findById(id: number): Promise<ProductEntity | null>;
+    create(createProductDto: CreateProductDto, user: UserEntity): Promise<ProductEntity>;
+}
+
 @Injectable()
-export class ProductService {
+export class ProductService implements IProductService{
     constructor(
         @InjectRepository(ProductEntity)
         private readonly productRepository: Repository<ProductEntity>,

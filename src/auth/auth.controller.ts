@@ -9,7 +9,7 @@ import {
     UseGuards,
     Req,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { IAuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LocalAuthGuard } from './local-auth.guard';
 import { Request } from 'express';
@@ -21,7 +21,7 @@ import { Services } from '../utils/constants';
 @Controller('auth')
 export class AuthController {
     constructor(
-        @Inject(Services.AUTH) private readonly authService: AuthService,
+        @Inject(Services.AUTH) private readonly authService: IAuthService,
     ) { }
 
     @Post('login')
@@ -31,19 +31,24 @@ export class AuthController {
         return new UserEntity(request.user);
     }
 
-    @Post('register')
-    @UseInterceptors(ClassSerializerInterceptor)
-    async register(@Body() registerUserDto: RegisterUserDto) {
-        let prevUser = await this.authService.findUserByEmail(
-            registerUserDto.email,
+    async checkIfUserWithEmailExists(email: string) {
+        const user = await this.authService.findUserByEmail(
+            email,
         );
 
-        if (prevUser) {
+        if (user) {
             throw new HttpException(
-                `User with email ${registerUserDto.email} already exists!`,
+                `User with email ${email} already exists!`,
                 400,
             );
         }
+    }
+
+    @Post('register')
+    @UseInterceptors(ClassSerializerInterceptor)
+    async register(@Body() registerUserDto: RegisterUserDto) {
+
+        await this.checkIfUserWithEmailExists(registerUserDto.email)
 
         let registeredUser = await this.authService.registerUser(
             registerUserDto,

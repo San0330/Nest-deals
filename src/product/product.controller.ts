@@ -1,15 +1,14 @@
 import { Controller, Param, Inject, Post, Req, UseInterceptors, ClassSerializerInterceptor, Get, Body, HttpException, NotFoundException, ParseIntPipe } from '@nestjs/common';
-import { ProductService } from './product.service';
+import { IProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
-import { Request } from 'express'
-import { UserEntity } from '../typeorm';
 import { Services } from '../utils/constants';
+import { AuthenticatedRequest } from '../utils/types';
 
 @Controller('product')
 export class ProductController {
 
     constructor(
-        @Inject(Services.PRODUCT) private readonly productService: ProductService
+        @Inject(Services.PRODUCT) private readonly productService: IProductService
     ) { }
 
     @Get()
@@ -34,8 +33,8 @@ export class ProductController {
 
     @Post('create')
     @UseInterceptors(ClassSerializerInterceptor)
-    async create(@Body() createProductDto: CreateProductDto, @Req() req: Request) {
-        let product = await this.productService.create(createProductDto, req.user as UserEntity)
+    async create(@Body() createProductDto: CreateProductDto, @Req() req: AuthenticatedRequest) {
+        let product = await this.productService.create(createProductDto, req.user)
 
         if (!product) {
             throw new HttpException(

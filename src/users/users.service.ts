@@ -2,12 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { UserEntity } from '../typeorm';
 import { encodePassword } from '../utils/bcrypt';
 
+export interface IUserService {
+    create(createUserDto: CreateUserDto): Promise<UserEntity>;
+    findAll(): Promise<UserEntity[]>;
+    findUserById(id: number): Promise<UserEntity | null>;
+    findByEmail(email: string): Promise<UserEntity | null>;
+    update(id: number, updateUserDto: UpdateUserDto): Promise<UpdateResult>;
+    remove(id: number): Promise<void>;
+}
+
 @Injectable()
-export class UsersService {
+export class UserService implements IUserService {
     constructor(
         @InjectRepository(UserEntity)
         private readonly usersRepository: Repository<UserEntity>,
@@ -27,11 +36,11 @@ export class UsersService {
         return this.usersRepository.find();
     }
 
-    findUserById(id: number): Promise<UserEntity> {
+    findUserById(id: number) {
         return this.usersRepository.findOneBy({ id: id });
     }
 
-    findByEmail(email: string): Promise<UserEntity> {
+    findByEmail(email: string) {
         return this.usersRepository
             .createQueryBuilder('user')
             .where("user.email = :email", { email })
@@ -43,7 +52,7 @@ export class UsersService {
         return this.usersRepository.update(id, updateUserDto);
     }
 
-    async remove(id: number): Promise<void> {
+    async remove(id: number) {
         await this.usersRepository.delete(id);
     }
 }
