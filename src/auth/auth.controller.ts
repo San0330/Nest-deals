@@ -15,12 +15,13 @@ import { LocalAuthGuard } from './local-auth.guard';
 import { Request } from 'express';
 import { Public } from './public.decorator';
 import { UserEntity } from '../typeorm';
+import { Services } from '../utils/constants';
 
 @Public()
 @Controller('auth')
 export class AuthController {
     constructor(
-        @Inject('AUTH_SERVICE') private readonly authService: AuthService,
+        @Inject(Services.AUTH) private readonly authService: AuthService,
     ) { }
 
     @Post('login')

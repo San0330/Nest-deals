@@ -3,12 +3,13 @@ import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Request } from 'express'
 import { UserEntity } from '../typeorm';
+import { Services } from '../utils/constants';
 
 @Controller('product')
 export class ProductController {
 
     constructor(
-        @Inject('PRODUCT_SERVICE') private readonly productService: ProductService
+        @Inject(Services.PRODUCT) private readonly productService: ProductService
     ) { }
 
     @Get()

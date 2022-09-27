@@ -15,11 +15,12 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Services } from '../utils/constants';
 
 @Controller('users')
 export class UsersController {
     constructor(
-        @Inject('USERS_SERVICE') private readonly usersService: UsersService,
+        @Inject(Services.USER) private readonly usersService: UsersService,
     ) { }
 
     @Post()

@@ -5,6 +5,7 @@ import { ProductController } from './product.controller';
 import { ProductService } from './product.service';
 import { UserEntity } from '../typeorm'
 import { AuthenticatedGuard } from '../auth/authenticate.guard';
+import { Services } from '../utils/constants';
 
 @Module({
     imports: [TypeOrmModule.forFeature([ProductEntity, UserEntity])],
@@ -15,7 +16,7 @@ import { AuthenticatedGuard } from '../auth/authenticate.guard';
             useClass: AuthenticatedGuard,
         },
         {
-            provide: 'PRODUCT_SERVICE',
+            provide: Services.PRODUCT,
             useClass: ProductService
         },
     ],

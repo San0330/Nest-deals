@@ -6,23 +6,28 @@ import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { DataSource } from 'typeorm';
 import { ProductModule } from './product/product.module';
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
     imports: [
-        UsersModule,
+        ConfigModule.forRoot({
+            envFilePath: '.development.env',
+            isGlobal: true,
+        }),
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: 'localhost',
-            port: 3306,
-            username: 'san',
-            password: 'password',
-            database: 'nest_deals',
+            host: process.env.DB_HOST,
+            port: +process.env.DB_PORT,
+            username: process.env.DB_USERNAME,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME,
             entities,
             synchronize: true,
         }),
         PassportModule.register({
             session: true,
         }),
+        UsersModule,
         AuthModule,
         ProductModule,
     ],
@@ -30,7 +35,7 @@ import { ProductModule } from './product/product.module';
     providers: [],
 })
 export class AppModule {
-    constructor(private dataSource: DataSource) {}
+    constructor(private dataSource: DataSource) { }
 
     getDataSource() {
         return this.dataSource;
