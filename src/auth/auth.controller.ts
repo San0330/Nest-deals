@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { IAuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './auth.guard';
 import { Request } from 'express';
 import { Public } from './public.decorator';
 import { UserEntity } from '../typeorm';

@@ -7,6 +7,7 @@ import { PassportModule } from '@nestjs/passport';
 import { DataSource } from 'typeorm';
 import { ProductModule } from './product/product.module';
 import { ConfigModule } from '@nestjs/config'
+import { AuthenticatedGuard } from './auth/auth.guard';
 
 @Module({
     imports: [
@@ -32,7 +33,13 @@ import { ConfigModule } from '@nestjs/config'
         ProductModule,
     ],
     controllers: [],
-    providers: [],
+    providers: [
+        {
+            provide: 'APP_GUARD',
+            useClass: AuthenticatedGuard,
+        },
+
+    ],
 })
 export class AppModule {
     constructor(private dataSource: DataSource) { }

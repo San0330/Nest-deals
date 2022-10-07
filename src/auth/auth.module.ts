@@ -3,7 +3,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../typeorm';
-import { LocalStrategy } from './local.startegy';
+import { LocalStrategy } from './auth.strategy';
 import { SessionSerializer } from './session.serializer';
 import { Services } from '../utils/constants';
 import { UsersModule } from '../users/users.module';
