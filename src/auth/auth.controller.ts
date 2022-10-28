@@ -31,7 +31,7 @@ export class AuthController {
         return new UserEntity(request.user);
     }
 
-    async checkIfUserWithEmailExists(email: string) {
+    private async checkIfUserWithEmailExists(email: string) {
         const user = await this.authService.findUserByEmail(
             email,
         );

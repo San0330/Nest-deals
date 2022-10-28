@@ -37,7 +37,7 @@ async function bootstrap() {
     app.use(
         session({
             name: 'NEST-DEALS-SESSID',
-            secret: 'A-SECRET-KEY',
+            secret: process.env.SESS_SECRET,
             resave: false,
             saveUninitialized: false,
             cookie: {
