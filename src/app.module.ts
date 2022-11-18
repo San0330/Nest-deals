@@ -8,6 +8,8 @@ import { DataSource } from 'typeorm';
 import { ProductModule } from './product/product.module';
 import { ConfigModule } from '@nestjs/config'
 import { AuthenticatedGuard } from './auth/auth.guard';
+import { CompanyModule } from './company/company.module';
+import { Guards } from './utils/constants';
 
 @Module({
     imports: [
@@ -31,11 +33,12 @@ import { AuthenticatedGuard } from './auth/auth.guard';
         UsersModule,
         AuthModule,
         ProductModule,
+        CompanyModule,
     ],
     controllers: [],
     providers: [
         {
-            provide: 'APP_GUARD',
+            provide: Guards.APP,
             useClass: AuthenticatedGuard,
         },
 
