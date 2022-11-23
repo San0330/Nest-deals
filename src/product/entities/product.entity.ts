@@ -1,5 +1,5 @@
 import { UserEntity } from "../../users/entities/user.entity";
-import { Entity, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, RelationId } from "typeorm";
 import { Exclude } from "class-transformer";
 
 @Entity({ name: 'products' })
@@ -28,6 +28,9 @@ export class ProductEntity {
         name: 'created_by_id'
     })
     created_by: UserEntity;
+
+    @RelationId((product: ProductEntity) => product.created_by) // you need to specify target relation
+    created_by_id: number
 
     @CreateDateColumn({
         default: () => 'CURRENT_TIMESTAMP'

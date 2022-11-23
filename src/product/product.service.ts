@@ -11,7 +11,7 @@ export interface IProductService {
 }
 
 @Injectable()
-export class ProductService implements IProductService{
+export class ProductService implements IProductService {
     constructor(
         @InjectRepository(ProductEntity)
         private readonly productRepository: Repository<ProductEntity>,
@@ -29,7 +29,7 @@ export class ProductService implements IProductService{
                 id
             },
             relations: {
-                created_by: true,
+                created_by: false
             }
         })
 
