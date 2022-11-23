@@ -15,9 +15,6 @@ export class ProductController {
     @UseInterceptors(ClassSerializerInterceptor)
     async gets() {
         const products = await this.productService.findall()
-
-        if (!products) throw new NotFoundException();
-
         return products
     }
 

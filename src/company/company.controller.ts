@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, Inject, Req, ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, Inject, Req, ClassSerializerInterceptor, UseInterceptors, Get, NotFoundException } from '@nestjs/common';
 import { AuthenticatedRequest } from '../utils/types';
 import { Services } from '../utils/constants';
 import { CompanyService } from './company.service';
@@ -9,6 +9,13 @@ export class CompanyController {
     constructor(
         @Inject(Services.COMPANY) private readonly companyService: CompanyService
     ) { }
+
+    @Get()
+    @UseInterceptors(ClassSerializerInterceptor)
+    async gets() {
+        const companies = await this.companyService.findall()
+        return companies
+    }
 
     @Post()
     @UseInterceptors(ClassSerializerInterceptor)
