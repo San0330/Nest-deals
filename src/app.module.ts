@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config'
 import { AuthenticatedGuard } from './auth/auth.guard';
 import { CompanyModule } from './company/company.module';
 import { Guards } from './utils/constants';
+import { StaffModule } from './staff/staff.module';
 
 @Module({
     imports: [
@@ -34,6 +35,7 @@ import { Guards } from './utils/constants';
         AuthModule,
         ProductModule,
         CompanyModule,
+        StaffModule,
     ],
     controllers: [],
     providers: [

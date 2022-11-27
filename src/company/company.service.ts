@@ -8,6 +8,7 @@ import { CompanyEntity } from './entities/company.entity';
 
 export interface ICompanyService {
     findall(): Promise<CompanyEntity[]>
+    findCompanyById(id: number): Promise<CompanyEntity | null>;
     create(createCompanyDto: CreateCompanyDto, user: UserEntity): Promise<CompanyEntity | null>
 }
 
@@ -17,6 +18,14 @@ export class CompanyService implements ICompanyService {
         @InjectRepository(CompanyEntity)
         private readonly companyRepository: Repository<CompanyEntity>,
     ) { }
+
+    async find(id: number) {
+        return this.companyRepository.findOneBy({ id: id });
+    }
+
+    async findCompanyById(id: number) {
+        return this.companyRepository.findOneBy({ id: id });
+    }
 
     async findall() {
         const companies = await this.companyRepository.find()

@@ -11,6 +11,10 @@ import { Services } from '../utils/constants';
     providers: [{
         provide: Services.COMPANY,
         useClass: CompanyService
+    }],
+    exports: [{
+        provide: Services.COMPANY,
+        useClass: CompanyService,
     }]
 })
 export class CompanyModule { }

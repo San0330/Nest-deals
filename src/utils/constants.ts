@@ -3,6 +3,7 @@ export const enum Services {
     PRODUCT = 'PRODUCT_SERVICE',
     AUTH = 'AUTH_SERVICE',
     COMPANY = 'COMPANY_SERVICE',
+    STAFF = 'STAFF_SERVICE',
 }
 
 export const enum Guards {
