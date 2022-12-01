@@ -16,5 +16,11 @@ import { StaffService } from './staff.service';
             useClass: StaffService
         },
     ],
+    exports: [
+        {
+            provide: Services.STAFF,
+            useClass: StaffService,
+        },
+    ]
 })
 export class StaffModule { }

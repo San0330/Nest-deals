@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, OneToOne, RelationId } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
+import { StaffEntity } from '../../typeorm';
 
 export enum UserRole {
     USER = 'USER',
@@ -17,7 +18,6 @@ export class UserEntity {
     @PrimaryGeneratedColumn({
         type: 'bigint',
     })
-    @Exclude()
     id: number;
 
     @Column()
@@ -74,6 +74,13 @@ export class UserEntity {
     @DeleteDateColumn()
     @Exclude()
     deleted_date: Date;
+
+    // inverse relation with staff
+    @OneToOne(() => StaffEntity, (staff) => staff.user)
+    staff: StaffEntity
+
+    @RelationId((user: UserEntity) => user.staff)
+    staff_id: number
 
     @Expose()
     get full_name(): string {

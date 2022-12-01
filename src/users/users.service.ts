@@ -37,12 +37,23 @@ export class UserService implements IUserService {
     }
 
     findUserById(id: number) {
-        return this.usersRepository.findOneBy({ id: id });
+        return this.usersRepository.findOne({
+            where: { id: id },
+            relations: {
+                staff: true,
+                /*
+                staff: {
+                   company: true,
+                }
+                */
+            }
+        });
     }
 
     findByEmail(email: string) {
         return this.usersRepository
             .createQueryBuilder('user')
+            // .leftJoinAndSelect('user.staff', 'staff')
             .where("user.email = :email", { email })
             .addSelect('user.password')
             .getOne();

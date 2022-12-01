@@ -1,6 +1,6 @@
-import { UserEntity } from "../../users/entities/user.entity";
 import { Entity, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, RelationId } from "typeorm";
 import { Exclude } from "class-transformer";
+import { StaffEntity } from "../../typeorm";
 
 @Entity({ name: 'products' })
 export class ProductEntity {
@@ -21,13 +21,13 @@ export class ProductEntity {
     @Column()
     price: number;
 
-    @ManyToOne(() => UserEntity, {
+    @ManyToOne(() => StaffEntity, {
         nullable: false
     })
     @JoinColumn({
         name: 'created_by_id'
     })
-    created_by: UserEntity;
+    created_by: StaffEntity;
 
     @RelationId((product: ProductEntity) => product.created_by) // you need to specify target relation
     created_by_id: number

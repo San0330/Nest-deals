@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, ForbiddenException, HttpException, Inject, Post, Req, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, ForbiddenException, Get, HttpException, Inject, Post, Req, UseInterceptors } from '@nestjs/common';
 import { ICompanyService } from '../company/company.service';
 import { UserRole } from '../users/entities/user.entity';
 import { IUserService } from '../users/users.service';
@@ -15,6 +15,12 @@ export class StaffController {
         @Inject(Services.COMPANY) private readonly companyService: ICompanyService,
         @Inject(Services.USER) private readonly userService: IUserService
     ) { }
+
+    @Get()
+    @UseInterceptors(ClassSerializerInterceptor)
+    async index() {
+        return await this.staffService.findAll();
+    }
 
     @Post()
     @UseInterceptors(ClassSerializerInterceptor)
