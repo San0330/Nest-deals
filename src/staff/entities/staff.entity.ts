@@ -1,6 +1,6 @@
 import { Exclude } from "class-transformer";
 import { CompanyEntity, UserEntity } from "../../typeorm";
-import { CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('staffs')
 export class StaffEntity {
@@ -18,7 +18,7 @@ export class StaffEntity {
     })
     user: UserEntity;
 
-    @OneToOne(() => CompanyEntity, {
+    @ManyToOne(() => CompanyEntity, {
         nullable: false
     })
     @JoinColumn({

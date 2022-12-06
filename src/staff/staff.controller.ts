@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, ForbiddenException, Get, HttpException, Inject, Post, Req, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, ClassSerializerInterceptor, Controller, ForbiddenException, Get, HttpException, Inject, Post, Req, UseInterceptors } from '@nestjs/common';
 import { ICompanyService } from '../company/company.service';
 import { UserRole } from '../users/entities/user.entity';
 import { IUserService } from '../users/users.service';
@@ -30,19 +30,24 @@ export class StaffController {
             throw new ForbiddenException();
         }
 
-        let company = await this.companyService.findCompanyById(createStaffDto.company_id);
-        let user = await this.userService.findUserById(createStaffDto.user_id);
+        let { company_id, user_id } = createStaffDto
+
+        if (!company_id || !user_id) {
+            throw new BadRequestException("Invalid data");
+        }
+
+        let company = await this.companyService.findCompanyById(company_id);
+        let user = await this.userService.findUserById(user_id);
 
         if (!user || !company) {
-            throw new HttpException('user or company is invalid', 400);
+            throw new BadRequestException('user or company is invalid');
         }
 
         let staff = await this.staffService.create(company, user)
 
         if (!staff) {
-            throw new HttpException(
-                `Couldn't create staff`,
-                400,
+            throw new BadRequestException(
+                `Couldn't create staff`,                
             )
         }
 
