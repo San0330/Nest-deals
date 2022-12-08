@@ -1,6 +1,6 @@
 import { Exclude } from "class-transformer";
 import { CompanyEntity, UserEntity } from "../../typeorm";
-import { CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, Relation, UpdateDateColumn } from "typeorm";
 
 @Entity('staffs')
 export class StaffEntity {
@@ -11,20 +11,24 @@ export class StaffEntity {
     id: number;
 
     @OneToOne(() => UserEntity, {
-        nullable: false
+        nullable: false,
+        cascade: true, // save automatically when staff is saved
     })
-    @JoinColumn({
+    @JoinColumn({ // owner side of one-to-one relationship
         name: 'user_id'
     })
-    user: UserEntity;
+    user: Relation<UserEntity>;
+    // https://typeorm.io/#relations-in-esm-projects
 
+    // ManyToOne is always owner side
     @ManyToOne(() => CompanyEntity, {
-        nullable: false
+        nullable: false,
+        cascade: true, // save automatically when staff is saved
     })
     @JoinColumn({
         name: 'company_id'
     })
-    company: CompanyEntity;
+    company: Relation<CompanyEntity>;
 
     @CreateDateColumn()
     @Exclude()

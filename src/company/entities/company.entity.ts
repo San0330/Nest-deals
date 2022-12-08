@@ -1,6 +1,6 @@
 import { Exclude } from "class-transformer";
-import { UserEntity } from "../../typeorm";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { StaffEntity, UserEntity } from "../../typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({ name: 'companies' })
 export class CompanyEntity {
@@ -32,6 +32,10 @@ export class CompanyEntity {
         name: 'created_by_id'
     })
     created_by: UserEntity
+
+    // oneToMany is inverse of ManyToOne
+    @OneToMany(() => StaffEntity, (staff) => staff.company)
+    staffs: StaffEntity[]
 
     @CreateDateColumn({
         default: () => 'CURRENT_TIMESTAMP'

@@ -40,6 +40,32 @@ export class StaffService implements IStaffService {
             user: user,
         })
 
+        /*    Alternative approach
+            const staff2 = new StaffEntity({});
+            staff2.user = user;
+            staff2.company = company;
+            return this.staffRepository.save(staff2)
+        */
+
+        /*
+            if user is not already saved model then
+            create user first and save it
+
+            const user2 = new user2({})
+            userRepository.save(user2)
+
+            // then save staff
+            const staff = new StaffEntity({})
+            staff.user = user2
+            staffRepo.save(staff)
+
+            // setting cascade = true on staff.enitty.ts
+            // will save us from saving user seprately
+            // user will be saved when staff is saved
+
+            https://typeorm.io/#using-cascades-to-automatically-save-related-objects
+        */
+
         return this.staffRepository.save(staff)
     }
 }
