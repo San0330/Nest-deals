@@ -37,9 +37,7 @@ export class CompanyEntity {
     @OneToMany(() => StaffEntity, (staff) => staff.company)
     staffs: StaffEntity[]
 
-    @CreateDateColumn({
-        default: () => 'CURRENT_TIMESTAMP'
-    })
+    @CreateDateColumn()
     created_date: Date;
 
     @UpdateDateColumn({

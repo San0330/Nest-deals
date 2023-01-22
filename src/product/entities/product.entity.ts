@@ -32,9 +32,7 @@ export class ProductEntity {
     @RelationId((product: ProductEntity) => product.created_by) // you need to specify target relation
     created_by_id: number
 
-    @CreateDateColumn({
-        default: () => 'CURRENT_TIMESTAMP'
-    })
+    @CreateDateColumn()
     created_date: Date;
 
     @UpdateDateColumn({
