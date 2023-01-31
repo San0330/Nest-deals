@@ -10,7 +10,7 @@ export class StaffEntity {
     })
     id: number;
 
-    @OneToOne(() => UserEntity, {
+    @OneToOne(() => UserEntity, (user) => user.staff, {
         nullable: false,
         cascade: true, // save automatically when staff is saved
     })

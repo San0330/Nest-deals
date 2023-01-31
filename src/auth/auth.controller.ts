@@ -46,25 +46,19 @@ export class AuthController {
         return {}
     }
 
-    private async checkIfUserWithEmailExists(email: string) {
-        const user = await this.authService.findUserByEmail(
-            email,
-        );
-
-        if (user) {
-            throw new HttpException(
-                `User with email ${email} already exists!`,
-                400,
-            );
-        }
-    }
-
     @Public()
     @Post('register')
     @UseInterceptors(ClassSerializerInterceptor)
     async register(@Body() registerUserDto: RegisterUserDto) {
 
-        await this.checkIfUserWithEmailExists(registerUserDto.email)
+        let hasUser = await this.authService.checkIfUserWithEmailExists(registerUserDto.email)
+
+        if (hasUser) {
+            throw new HttpException(
+                `User with email ${registerUserDto.email} already exists!`,
+                400,
+            );
+        }
 
         let registeredUser = await this.authService.registerUser(
             registerUserDto,

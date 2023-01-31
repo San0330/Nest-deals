@@ -1,4 +1,4 @@
-import { BadRequestException, Body, ClassSerializerInterceptor, Controller, ForbiddenException, Get, HttpException, Inject, Post, Req, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, ClassSerializerInterceptor, Controller, ForbiddenException, Get, Inject, Post, Req, UseInterceptors } from '@nestjs/common';
 import { ICompanyService } from '../company/company.service';
 import { UserRole } from '../users/entities/user.entity';
 import { IUserService } from '../users/users.service';
@@ -47,7 +47,7 @@ export class StaffController {
 
         if (!staff) {
             throw new BadRequestException(
-                `Couldn't create staff`,                
+                `Couldn't create staff`,
             )
         }
 

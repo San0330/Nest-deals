@@ -10,6 +10,7 @@ export interface IAuthService {
     validateUser(userCredentials: UserCredentials): Promise<UserEntity | null>;
     findUserByEmail(email: string): Promise<UserEntity | null>;
     registerUser(registerUserDto: RegisterUserDto): Promise<UserEntity>;
+    checkIfUserWithEmailExists(email: string): Promise<boolean>;
 }
 
 @Injectable()
@@ -41,5 +42,17 @@ export class AuthService implements IAuthService {
 
     async registerUser(registerUserDto: RegisterUserDto) {
         return this.userService.create(registerUserDto);
+    }
+
+    async checkIfUserWithEmailExists(email: string) {
+        const user = await this.findUserByEmail(
+            email,
+        );
+
+        if (user) {
+            return true
+        }
+
+        return false
     }
 }

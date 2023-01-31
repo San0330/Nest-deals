@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, Inject, Req, ClassSerializerInterceptor, UseInterceptors, Get, NotFoundException } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, Inject, Req, ClassSerializerInterceptor, UseInterceptors, Get } from '@nestjs/common';
 import { AuthenticatedRequest } from '../utils/types';
 import { Services } from '../utils/constants';
 import { CompanyService } from './company.service';
